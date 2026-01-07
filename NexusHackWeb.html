@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus & Aero | Premium Roblox Tools</title>
+    <!-- Подключаем современные шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Иконки -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- ОСНОВНЫЕ СТИЛИ --- */
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --accent: #8b5cf6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Фоновая анимация (пятна света) */
+        .background-blobs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: purple; }
+        .blob-2 { bottom: -10%; right: -10%; width: 400px; height: 400px; background: blue; animation-delay: 2s; }
+        .blob-3 { top: 40%; left: 40%; width: 300px; height: 300px; background: #ff0055; opacity: 0.2; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 50px); }
+        }
+
+        /* --- НАВИГАЦИЯ --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* --- HERO СЕКЦИЯ --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            background: linear-gradient(to right, #fff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.8s;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            background: var(--text-main);
+            color: #000;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            opacity: 0;
+            animation: fadeInUp 1s forwards 1.1s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+        }
+
+        /* --- СЕТКА ПРОДУКТОВ --- */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            margin-top: 100px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 100px 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Карточка товара */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.1);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(139, 92, 246, 0.2);
+            color: #d8b4fe;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .card-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .card-btn:hover {
+            background: var(--accent);
+        }
+
+        .icon-box {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        /* Анимации при скролле */
+        .reveal {
+            position: relative;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: 1s all ease;
+        }
+
+        .reveal.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Подвал */
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Адаптив */
+        @media(max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Можно добавить гамбургер-меню, если нужно */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Задний фон -->
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Навигация -->
+    <nav>
+        <div class="logo">NEXUS STORE</div>
+        <div class="nav-links">
+            <a href="#exploits">Эксплоиты</a>
+            <a href="#scripts">Скрипты</a>
+            <a href="#contact">Discord</a>
+        </div>
+    </nav>
+
+    <!-- Главный экран -->
+    <section class="hero">
+        <h1>Доминируй в Roblox<br>с новыми технологиями</h1>
+        <p>Лучшие эксплоиты и скрипты для твоей игры. Безопасно, быстро, качественно.</p>
+        <a href="#exploits" class="btn">Смотреть каталог</a>
+    </section>
+
+    <!-- Секция Эксплоитов -->
+    <div class="container" id="exploits">
+        <h2 class="section-title reveal">Мощные Эксплоиты</h2>
+        <div class="grid">
+            
+            <!-- Hydroxide -->
+            <div class="card reveal">
+                <span class="card-badge">Top Rated</span>
+                <div class="icon-box"><i class="fa-solid fa-flask"></i></div>
+                <h3>Hydroxide</h3>
+                <p>Продвинутый инструмент для разработчиков и эксплойтеров. Идеален для отладки и внедрения.</p>
+                <a href="#" class="card-btn">Скачать / Купить</a>
+            </div>
+
+            <!-- Mercury -->
+            <div class="card reveal">
+                <span class="card-badge">Popular</span>
+                <div class="icon-box"><i class="fa-solid fa-rocket"></i></div>
+                <h3>Mercury</h3>
+                <p>Легковесный, быстрый и стабильный эксплоит. Минимум вылетов, максимум производительности.</p>
+                <a href="#" class="card-btn">Скачать / Купить</a>
+            </div>
+
+            <!-- Aero -->
+            <div class="card reveal">
+                <span class="card-badge">New</span>
+                <div class="icon-box"><i class="fa-solid fa-wind"></i></div>
+                <h3>Aero</h3>
+                <p>Современный интерфейс и мощный API. Поддержка большинства скриптов без ключей.</p>
+                <a href="#" class="card-btn">Скачать / Купить</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Секция Скриптов -->
+    <div class="container" id="scripts">
+        <h2 class="section-title reveal">Эксклюзивные Скрипты</h2>
+        <div class="grid" style="justify-content: center;">
+            
+            <!-- NexusHack Lite -->
+            <div class="card reveal">
+                <span class="card-badge">Doors | Free</span>
+                <div class="icon-box"><i class="fa-solid fa-door-open"></i></div>
+                <h3>NexusHack Lite</h3>
+                <p>Облегченная версия чита на Doors. ESP, подсветка предметов и монстров. Без просадок FPS.</p>
+                <a href="#" class="card-btn">Получить скрипт</a>
+            </div>
+
+            <!-- Nexus Hack Full -->
+            <div class="card reveal">
+                <span class="card-badge">Doors | Premium</span>
+                <div class="icon-box"><i class="fa-solid fa-key"></i></div>
+                <h3>Nexus Hack</h3>
+                <p>Полная версия. Авто-прохождение, God Mode, скип комнат и полный контроль над Doors.</p>
+                <a href="#" class="card-btn">Купить доступ</a>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Nexus Store. All rights reserved.</p>
+        <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.5;">We are not affiliated with Roblox Corporation.</p>
+    </footer>
+
+    <!-- Скрипт для анимации появления при скролле -->
+    <script>
+        window.addEventListener('scroll', reveal);
+
+        function reveal(){
+            var reveals = document.querySelectorAll('.reveal');
+
+            for(var i = 0; i < reveals.length; i++){
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+
+                if(revealtop < windowheight - revealpoint){
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        // Запустить один раз при загрузке, чтобы верхние элементы появились
+        reveal();
+    </script>
+</body>
+</html>
